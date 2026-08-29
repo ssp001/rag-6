@@ -1,0 +1,27 @@
+[project]
+name = "rag-6"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.141.1",
+    "fastembed>=0.8.0",
+    "langchain>=1.3.17",
+    "langchain-community>=0.4.2",
+    "langchain-groq>=1.1.3",
+    "langchain-huggingface>=1.2.2",
+    "langchain-qdrant>=1.1.0",
+    "langchain-text-splitters>=1.1.2",
+    "langgraph>=1.2.11",
+    "logfire>=4.41.0",
+    "pydantic-settings>=2.15.0",
+    "pypdf>=6.16.2",
+    "pyresilience>=0.4.0",
+    "pyyml>=0.0.2",
+    "qdrant-client>=1.19.0",
+    "requests>=2.34.2",
+    "sentence-transformers>=6.0.0",
+    "streamlit>=1.62.0",
+    "uvicorn>=0.52.4",
+]
