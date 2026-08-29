@@ -15,6 +15,7 @@ dependencies = [
     "langchain-text-splitters>=1.1.2",
     "langgraph>=1.2.11",
     "logfire>=4.41.0",
+    "mem0ai>=2.0.19",
     "pydantic-settings>=2.15.0",
     "pypdf>=6.16.2",
     "pyresilience>=0.4.0",

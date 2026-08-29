@@ -18,3 +18,5 @@ streamlit
 requests
 pypdf
 langchain_huggingface
+mem0ai
+langgraph

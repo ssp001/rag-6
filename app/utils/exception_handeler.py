@@ -56,3 +56,13 @@ class AiResponesException(Exception):
     def __init__(self, message: str):
         self.message = message
         super().__init__(message)
+
+
+class AiMemoryException(Exception):
+    """
+    Custom exception class for handling errors related to AI memory response operations.
+    """
+
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(message)

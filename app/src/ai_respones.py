@@ -16,7 +16,7 @@ class ChatGrouqAi:
             # other params...
         )
 
-    async def run_query(self, query: str, parsed_text: str):
+    async def run_query(self, query: str, parsed_text: str, parsed_memory: str | None = None):
         """
         Function to run a query against the AI model using the provided parsed text.
         Args:
@@ -36,6 +36,8 @@ class ChatGrouqAi:
 
                     {parsed_text}
 
+                    also you have memo support it can halp you to get the past conversation with you {parsed_memory} 
+                    
                     Answer the user's question using the document.
                     If the answer cannot be found, use the available tools."""
                 ),

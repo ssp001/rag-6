@@ -11,7 +11,7 @@ from pyresilience import resilient, TimeoutConfig, RetryConfig
         delay=10
     )
 )
-async def ai_run_query(query, parsed_text):
+async def ai_run_query(query, parsed_text, memory_input):
     """
     Function to run a query against the AI model using the provided parsed text.
     Args:
@@ -24,7 +24,11 @@ async def ai_run_query(query, parsed_text):
     """
     try:
         ai_client = ChatGrouqAi()
-        async for chunk in ai_client.run_query(query=query, parsed_text=parsed_text):
+        async for chunk in ai_client.run_query(
+                query=query,
+                parsed_text=parsed_text,
+                parsed_memory=memory_input
+        ):
             yield chunk
     except Exception as error:
         raise RuntimeError(
