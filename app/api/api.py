@@ -9,8 +9,10 @@ from app.service import (
     embedde_the_text,
     qudrent_vector_delete_service,
     qudrent_vector_upload_service,
+    ai_delete_memory,
+    ai_memory_search,
+    ai_memory_push
 )
-from app.graph import model
 import logfire
 
 app = FastAPI(title="rag_endpoint")
@@ -72,3 +74,29 @@ async def chat(query: str, user_id: str, session_id: str):
         content=ai_respones(state),
         media_type="text/plain"
     )
+
+
+@app.get("/Home/test")
+def search_in_memory(user_input, user_indentity):
+    respones = ai_memory_search(
+        user_chat=user_input,
+        user_id=user_indentity
+    )
+    return respones
+
+
+@app.post("/Home/test/push")
+def search_in_memory(user_input, user_indentity):
+    respones = ai_memory_push(
+        user_chat=user_input,
+        user_id=user_indentity,
+    )
+    return respones
+
+
+@app.post("/Home/Admin/delete")
+def delete_memory(user_id: str):
+    respones = ai_delete_memory(
+        user_id=user_id
+    )
+    return respones

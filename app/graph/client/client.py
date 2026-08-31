@@ -1,5 +1,5 @@
 from app.config import InputState
-from app.service import ai_run_query, search_in_db, ai_memory_push, ai_memory_get
+from app.service import ai_run_query, search_in_db, ai_memory_search, ai_memory_push
 
 
 def vector_db_search(state: InputState):
@@ -17,10 +17,10 @@ def vector_db_search(state: InputState):
 
 def search_memory(state: InputState):
     try:
-        search_respones = ai_memory_get(
+        search_respones = ai_memory_search(
             user_chat=state["user_input"],
             user_id=state["user_id"],
-            session_id=state["session_id"]
+            session_id=state["memory_session_id"]
         )
         state["parsed_memory"] = search_respones
         return state
@@ -30,12 +30,12 @@ def search_memory(state: InputState):
 
 def push_to_memory(state: InputState):
     try:
-        ai_memory_push(
-            ai_respoones=state["ai_respones"],
+        respones = ai_memory_push(
             session_id=state["session_id"],
             user_chat=state["user_input"],
             user_id=state["user_id"]
         )
+        state["memory_session_id"] = respones
         return state
     except Exception as error:
         raise RuntimeError(str(error))
@@ -44,41 +44,17 @@ def push_to_memory(state: InputState):
 async def ai_run(state: InputState):
     try:
         respones = ""
+        memory_input = state.get("parsed_memory", [])
         async for chunk in ai_run_query(
             query=state["user_input"],
-            memory_input=state["parsed_memory"],
+            memory_input=memory_input,
             parsed_text=state["vector_db_respones"]
         ):
             respones += chunk
             state["ai_respones"] = respones
-            return respones
+        return {
+            "ai_respones": respones
+        }
 
-    except Exception as error:
-        raise RuntimeError(str(error))
-
-
-def router_node(state: InputState):
-    try:
-        search_respones = ai_memory_get(
-            user_chat=state["user_input"],
-            user_id=state["user_id"],
-            session_id=state["session_id"]
-        )
-        state["memory_condition"] = search_respones
-        return state
-    except Exception as error:
-        raise RuntimeError(str(error))
-
-
-def memory_router(state: InputState):
-    try:
-        if state["memory_condition"] is None:
-            return "push_memory"
-
-        elif state["memory_condition"]:
-            return "search_memory"
-
-        else:
-            return "push_memory"
     except Exception as error:
         raise RuntimeError(str(error))

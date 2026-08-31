@@ -1,5 +1,6 @@
-from app.src import ChatGrouqAi
-from pyresilience import resilient, TimeoutConfig, RetryConfig
+from app.src import AiMemory
+from pyresilience import resilient, RetryConfig, TimeoutConfig
+from app.utils import AiMemoryException
 
 
 @resilient(
@@ -11,7 +12,7 @@ from pyresilience import resilient, TimeoutConfig, RetryConfig
         delay=10
     )
 )
-async def ai_run_query(query, parsed_text, memory_input):
+def ai_delete_memory(user_id: str):
     """
     Function to run a query against the AI model using the provided parsed text.
     Args:
@@ -23,13 +24,11 @@ async def ai_run_query(query, parsed_text, memory_input):
         AiResponesException: If an error occurs during the AI response generation.
     """
     try:
-        ai_client = ChatGrouqAi()
-        async for chunk in ai_client.run_query(
-                query=query,
-                parsed_text=parsed_text,
-                parsed_memory=memory_input
-        ):
-            yield chunk.decode(encoding="utf-8")
-    except Exception as error:
+        ai_memory_client = AiMemory()
+        respones = ai_memory_client.delete_memory(
+            user_id=user_id
+        )
+        return respones
+    except AiMemoryException as error:
         raise RuntimeError(
             f"Error in running the AI query: {error}") from error

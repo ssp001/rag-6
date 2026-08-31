@@ -15,7 +15,7 @@ from qdrant_client.models import (
     Filter,
     FieldCondition
 )
-from typing import List, Union
+from typing import List
 
 
 class VectorSearch:
@@ -88,35 +88,3 @@ class VectorSearch:
             logfire.error(f"exceion occured in vector search{error}")
             raise VectorSearchException(
                 f"Error searching for text: {error}") from error
-
-    def qdrent_vector_search(self, user_id, session_id: str, user_input: Union[List[float], float]):
-        try:
-
-            respones = self.client.query_points(
-                collection_name=secret_manager.qdrent_collection_name,
-                query_filter=Filter(
-                    must=[
-                        FieldCondition(
-                            key="user_id",
-                            match=MatchValue(
-                                value=user_id
-                            )
-                        ),
-                        FieldCondition(
-                            key="session_id",
-                            match=MatchValue(
-                                value=session_id
-                            )
-                        )
-                    ]
-                ),
-                timeout=60,
-                query=user_input,
-                with_payload=True
-            )
-
-            return [res for res in respones]
-        except Exception as error:
-            logfire.error(f"Error searching for text in Qdrant: {error}")
-            raise VectorSearchException(
-                f"Error searching for text in Qdrant: {error}") from error

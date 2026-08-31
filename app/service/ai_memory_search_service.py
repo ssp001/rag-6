@@ -12,17 +12,15 @@ from app.utils import AiMemoryException
         delay=10
     )
 )
-def ai_memory_get(
+def ai_memory_search(
     user_chat: str,
-    user_id: str,
-    session_id: str
+    user_id: str
 ):
     try:
         client = AiMemory()
-        client.serach_memory_fregments(
+        client.serach_memory(
             user_id=user_id,
             query=user_chat,
-            session_id=session_id,
         )
     except AiMemoryException as error:
         raise RuntimeError(

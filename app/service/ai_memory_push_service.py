@@ -13,19 +13,16 @@ from app.utils import AiMemoryException
     )
 )
 def ai_memory_push(
-    ai_respoones: str,
     user_chat: str,
     user_id: str,
-    session_id: str
 ):
     try:
         client = AiMemory()
-        client.store_memory(
+        respones = client.add_memory(
             user_id=user_id,
             user_chat=user_chat,
-            session_id=session_id,
-            ai_respoones=ai_respoones
         )
+        return respones
     except AiMemoryException as error:
         raise RuntimeError(
             f"Error in storing memory: {error}") from error

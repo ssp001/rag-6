@@ -28,7 +28,6 @@ class InputState(TypedDict):
     user_input: Union[str, None] = None
     parsed_memory: Union[str, None] = None
     vector_db_respones: Union[str, None] = None
-    memory_condition: Union[List[str], str, None] = None
 
 
 secret_manager = SystemConfig()
