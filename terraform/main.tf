@@ -147,4 +147,5 @@ output "cognito_client_id" {
 }
 
 
+
 // https://rag-6-domain.auth.ap-south-1.amazoncognito.com/login?client_id=19lvgtfb519giaaimhnkvdv7b1&response_type=code&scope=openid+email&redirect_uri=http%3A%2F%2Flocalhost%3A8501
