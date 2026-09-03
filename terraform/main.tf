@@ -16,6 +16,8 @@ module "api_getway" {
   aws_rest_api_id                 = "rag-6-api"
   api_getway_authorizer           = "geteway-authorizer"
   aws_cognito_user_pool_arn_value = module.cognito.aws_cognito_user_pool_arn
+  s3_bucket_name_traget           = module.s3.s3_bucket_name
+  aws_iam_role_this_gw_arn        = module.api_getway_role_for_s3.iam_role_arn_s3
 }
 
 ##################################
@@ -93,7 +95,7 @@ module "process_archive" {
 module "process_lambda" {
   source                   = "./lambda"
   file_name_lambda         = "process_lambda_endpoint"
-  aws_iam_role_arn_value   = module.iam.iam_role_arn
+  aws_iam_role_arn_value   = module.iam_role_integration.aws_iam_role_arn
   aws_lambda_function_name = "process_lambda"
   archive_base64input      = module.process_archive.archive_base64output
   fuction_handeler         = "main_process.run_process"
@@ -116,3 +118,20 @@ module "s3" {
 }
 
 
+// s3 lambda access iam role
+
+module "iam_role_integration" {
+  source          = "./s3_invoke_lambda"
+  iam_role_name   = "s3_lambda_invoke_role"
+  iam_policy_name = "s3_lambda_invoke_policy"
+}
+
+
+###############################
+// s3 role and policy for api getway invokation
+###############################
+module "api_getway_role_for_s3" {
+  source                     = "./iam_s3"
+  s3_integration_role_name   = "s3_iam_role_for_apigetway"
+  s3_integration_policy_name = "s3_iam_policy_for_apigetway"
+}
