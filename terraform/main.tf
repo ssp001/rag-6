@@ -33,7 +33,7 @@ module "delete_archive" {
   source            = "./data_archiver"
   archive_file_tipe = "zip"
   source_file_path  = "../server/main_delete.py"
-  output_file_path  = "../archive/main_delete.zip"
+  output_file_path  = "./archive/main_delete.zip"
 }
 
 module "delete_lambda" {
@@ -59,7 +59,7 @@ module "respones_archive" {
   source            = "./data_archiver"
   archive_file_tipe = "zip"
   source_file_path  = "../server/main_respones.py"
-  output_file_path  = "../archive/main_respones.zip"
+  output_file_path  = "./archive/main_respones.zip"
 }
 
 module "respones_lambda" {
@@ -87,7 +87,7 @@ module "process_archive" {
   source            = "./data_archiver"
   archive_file_tipe = "zip"
   source_file_path  = "../server/main_process.py"
-  output_file_path  = "../archive/main_process.zip"
+  output_file_path  = "./archive/main_process.zip"
 }
 
 module "process_lambda" {
